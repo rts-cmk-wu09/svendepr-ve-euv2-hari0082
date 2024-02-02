@@ -1,14 +1,19 @@
+// ClassView.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import { HiMenuAlt3 } from "react-icons/hi";
+import { FaArrowLeft } from "react-icons/fa6";
 import Loading from "../Components/Loading";
+import Navigation from "../Components/Navigation";
 
 const ClassView = () => {
   const { id } = useParams();
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userIsRegistered, setUserIsRegistered] = useState(false);
+  const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
-  const userIsLoggedIn = true; // You can replace this with your actual logic
+  const userIsLoggedIn = true;
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/v1/classes/${id}`)
@@ -22,18 +27,19 @@ const ClassView = () => {
         setLoading(false);
       });
 
-    setUserIsRegistered(false); // Reset user registration status
+    setUserIsRegistered(false);
   }, [id]);
 
   const handleSignUp = () => {
-    // Simulate user sign-up or leave logic. Replace this with your actual logic.
     if (userIsRegistered) {
-      // User is already registered, implement leave logic.
       console.log("Leave");
     } else {
-      // User is not registered, implement sign-up logic.
       console.log("Sign Up");
     }
+  };
+
+  const handleToggleNavigation = () => {
+    setIsNavigationOpen((prev) => !prev);
   };
 
   if (loading) {
@@ -46,9 +52,17 @@ const ClassView = () => {
 
   return (
     <div>
+      {/* Back button with FaArrowLeft icon */}
       <Link to="/home" className="absolute top-8 left-8">
-        <img className="w-8 h-8 border-2" src="src/assets/backbtn.png" alt="" />
+        <FaArrowLeft className="text-white text-2xl" />
       </Link>
+
+      <button
+        className="absolute top-8 right-8 text-white"
+        onClick={handleToggleNavigation}
+      >
+        <HiMenuAlt3 className="text-2xl" />
+      </button>
 
       <img
         className="w-screen"
@@ -69,6 +83,8 @@ const ClassView = () => {
           {userIsRegistered ? "Leave" : "Sign Up"}
         </button>
       )}
+
+      {isNavigationOpen && <Navigation onClose={handleToggleNavigation} />}
     </div>
   );
 };

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { HiMenuAlt3 } from "react-icons/hi";
 import Loading from "../Components/Loading";
+import BurgerMenu from "../Components/BurgerMenu";
 
 const Home = () => {
   const [activities, setActivities] = useState([]);
@@ -29,7 +31,10 @@ const Home = () => {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="text-3xl font-bold mb-4">Popular Classes</h1>
+      <span className="flex gap-12">
+        <h1 className="text-3xl font-bold mb-4">Popular Classes</h1>
+        <BurgerMenu />
+      </span>
 
       {loading ? (
         <Loading />
