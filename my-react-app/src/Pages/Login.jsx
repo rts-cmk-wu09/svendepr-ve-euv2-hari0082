@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { HiArrowNarrowLeft } from "react-icons/hi";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -49,11 +50,14 @@ const Login = () => {
   };
 
   return (
-    <div className="flex flex-col items-left">
+    <div className="flex flex-col items-left relative">
+      <Link to="/home" className="absolute top-8 left-8">
+        <HiArrowNarrowLeft className="text-2xl cursor-pointer" />
+      </Link>
       <h1 className="text-[56px] text-left font-bold mt-20 px-8 text-yellow-300">
         Believe Yourself
       </h1>
-      <p className="text-xl font-bold px-8">Train like a pro </p>
+      <p className="text-xl font-bold px-8">- Train like a pro</p>
 
       <div className="p-8 w-full mt-12">
         <h2 className="text-xl font-semibold mb-4">
