@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 
-const Navigation = ({ onClose }) => {
+const Navigation = ({ onClose, isLoggedIn, onLogout }) => {
   const handleLinkClick = () => {
-    onClose(); // Close the navigation menu when a link is clicked
+    onClose();
   };
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full bg-white flex flex-col items-center justify-center z-50">
+    <div className="fixed top-0 left-0 w-full h-full bg-white flex flex-col items-center justify-center z-50 text-center">
       <HiX
         className="text-2xl absolute top-4 right-4 cursor-pointer"
         onClick={onClose}
@@ -30,7 +30,13 @@ const Navigation = ({ onClose }) => {
           </Link>
         </li>
         <li className="mb-6">
-          <button>Log out</button>
+          {isLoggedIn ? (
+            <button onClick={onLogout}>Log out</button>
+          ) : (
+            <Link to="/login" onClick={handleLinkClick}>
+              Log in
+            </Link>
+          )}
         </li>
       </ul>
     </div>
