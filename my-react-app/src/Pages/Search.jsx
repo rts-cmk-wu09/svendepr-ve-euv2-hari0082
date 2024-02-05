@@ -4,32 +4,34 @@ import { HiArrowNarrowLeft } from "react-icons/hi";
 import { HiMenuAlt3 } from "react-icons/hi";
 import BurgerMenu from "../Components/BurgerMenu";
 import Navigation from "../Components/Navigation";
+import Loading from "../Components/Loading";
 
 const Search = () => {
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const [popularClasses, setPopularClasses] = useState([]);
   const [popularTrainers, setPopularTrainers] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleToggleNavigation = () => {
     setIsNavigationOpen((prev) => !prev);
   };
 
   useEffect(() => {
+    setIsLoading(true);
+
     fetch("http://localhost:4000/api/v1/classes")
       .then((response) => response.json())
       .then((data) => setPopularClasses(data))
-      .catch((error) =>
-        console.error("Error fetching popular classes:", error)
-      );
+      .catch((error) => console.error("Error fetching popular classes:", error))
+      .finally(() => setIsLoading(false));
 
     fetch("http://localhost:4000/api/v1/trainers")
       .then((response) => response.json())
-      .then((data) =>
-        setPopularTrainers(data.slice(0, 3))
-      ) /* Nød til at slice og vise de 3 første fordi at det sker en fejl, hvis jeg vil vise alle og det stemmer ikke overens med design. */
+      .then((data) => setPopularTrainers(data.slice(0, 3)))
       .catch((error) =>
         console.error("Error fetching popular trainers:", error)
-      );
+      )
+      .finally(() => setIsLoading(false));
   }, []);
 
   return (
@@ -49,10 +51,15 @@ const Search = () => {
           placeholder="Search"
         />
       </div>
+      {isLoading && <Loading />}
       <h2 className="text-xl font-bold mt-12">Popular Classes</h2>
       <div className="flex overflow-x-auto mt-2">
         {popularClasses.map((classItem) => (
-          <div key={classItem.id} className="m-2 relative">
+          <Link
+            key={classItem.id}
+            to={`/class/${classItem.id}`}
+            className="m-2 relative"
+          >
             <img
               src={classItem.asset.url}
               alt={classItem.className}
@@ -61,7 +68,7 @@ const Search = () => {
             <p className="absolute bottom-2 left-2 text-white font-bold text-xs">
               {classItem.className}
             </p>
-          </div>
+          </Link>
         ))}
       </div>
       <h2 className="text-xl font-bold mt-12">Popular Trainers</h2>
