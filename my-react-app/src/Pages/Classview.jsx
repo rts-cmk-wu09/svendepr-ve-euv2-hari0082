@@ -13,7 +13,7 @@ const ClassView = () => {
   const [userIsRegistered, setUserIsRegistered] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 
-  const userIsLoggedIn = true;
+  const userIsLoggedIn = true; // Du kan opdatere dette i henhold til din autentificering
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/v1/classes/${id}`)
@@ -27,14 +27,44 @@ const ClassView = () => {
         setLoading(false);
       });
 
+    // Simulerer, at brugeren allerede er tilmeldt klassen (du skal opdatere dette i henhold til din logik)
     setUserIsRegistered(false);
   }, [id]);
 
-  const handleSignUp = () => {
-    if (userIsRegistered) {
-      console.log("Leave");
-    } else {
-      console.log("Sign Up");
+  const handleSignUp = async () => {
+    try {
+      // Hent token og userId fra din autentificeringskontekst eller hvor du opbevarer dem
+      const { token, userId } = getAuthToken(); // Funktionen, der henter token og userId
+
+      // Sæt API-stien baseret på brugerens ID og klassens ID
+      const apiUrl = `http://localhost:4000/api/v1/users/${userId}/classes/${id}`;
+
+      let method = "POST"; // Standard er tilmelding
+
+      // Hvis brugeren allerede er tilmeldt, skal vi bruge DELETE-metoden for at afmelde
+      if (userIsRegistered) {
+        method = "DELETE";
+      }
+
+      // Udfør API-anmodningen
+      const response = await fetch(apiUrl, {
+        method: method,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error(`${method} request failed:`, response.statusText);
+        return;
+      }
+
+      // Opdater brugerens tilmeldingsstatus
+      setUserIsRegistered((prev) => !prev);
+
+      console.log(`${method} request successful!`);
+    } catch (error) {
+      console.error("Error handling sign up:", error);
     }
   };
 
@@ -52,7 +82,6 @@ const ClassView = () => {
 
   return (
     <div>
-      {/* Back button with FaArrowLeft icon */}
       <Link to="/home" className="absolute top-8 left-8">
         <FaArrowLeft className="text-white text-2xl" />
       </Link>
@@ -65,15 +94,29 @@ const ClassView = () => {
       </button>
 
       <img
-        className="w-screen"
+        className="w-screen h-[432px] object-cover"
         src={activity.asset.url}
         alt={activity.className}
       />
-      <h2>{activity.className}</h2>
-      <p>Day: {activity.classDay}</p>
-      <p>Time: {activity.classTime}</p>
-      <p>{activity.classDescription}</p>
-      <p>Instructor: {activity.trainer.trainerName}</p>
+      <h2 className="absolute top-64 left-4 text-4xl text-yellow-400 font-bold">
+        {activity.className}
+      </h2>
+      <button className="absolute top-80 right-12 border-2 border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400 font-semibold">
+        RATE
+      </button>
+      <div className="p-4">
+        <p className="font-semibold mb-4">
+          {activity.classDay} - {activity.classTime}
+        </p>
+        <p>{activity.classDescription}</p>
+        <p className="font-semibold text-xl mt-4">Trainer</p>
+        <div className="border p-4 mt-2 w-[88px] h-[88px]">
+          {/* mangler billede af træner, men han er ikke med i objektet. */}
+        </div>
+        <p className="text-base font-semibold mt-2">
+          {activity.trainer.trainerName}
+        </p>
+      </div>
 
       {userIsLoggedIn && (
         <button
