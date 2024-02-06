@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import { useAuth } from "../Context/AuthContext";
 
@@ -7,23 +7,33 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const { login } = useAuth();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      setError(""); // Reset any previous errors
+      setError("");
 
-      // Perform login logic
+      // Kontroller om brugernavn og adgangskode er udfyldt
+      if (!username || !password) {
+        setError("Please fill in both username and password.");
+        return;
+      }
+
       const { token, userId } = await login(username, password);
 
-      // Log token and userId to the console
       console.log("Token received in Login component:", token);
       console.log("UserId received in Login component:", userId);
+
+      setIsLoggedIn(true);
+
+      navigate("/schedule"); // Bruger useNavigate til at navigere til "/schedule" /* Men det virker ikke lige nu? */
     } catch (error) {
-      setError("Something went worng.. Try again");
+      setError("Invalid username or password.");
     }
   };
+
   return (
     <div className="flex flex-col items-left relative">
       <Link to="/home" className="absolute top-8 left-8">
@@ -67,7 +77,7 @@ const Login = () => {
           LOG IN
         </button>
 
-        {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
+        {error && <p className="text-red-500 mt-4 text-center">{error}</p>}
       </div>
     </div>
   );
