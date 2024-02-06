@@ -30,11 +30,11 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center">
-      <span className="flex gap-12">
-        <h1 className="text-3xl font-bold mb-4">Popular Classes</h1>
+    <div className="flex flex-col items-center p-4">
+      <div className="flex items-center gap-24 p-2 mb-6">
+        <h1 className="text-2xl">Popular Classes</h1>
         <BurgerMenu />
-      </span>
+      </div>
 
       {loading ? (
         <Loading />
@@ -42,12 +42,12 @@ const Home = () => {
         <div className="relative mb-8">
           <Link to={`/class/${activities.length > 0 ? activities[0].id : ""}`}>
             <img
-              className="w-full max-w-full"
+              className="w-[335px] h-[400px] object-cover rounded-2xl"
               src={largeImageUrl}
               alt="Large"
             />
           </Link>
-          <h2 className="absolute bottom-0 left-0 right-0 text-xl font-bold p-6 bg-yellow-300 w-[80%] rounded-tr-full">
+          <h2 className="absolute bottom-0 left-0 right-0 text-base font-bold p-4 bg-yellow-400 w-[224px] h-[72px] rounded-bl-2xl rounded-tr-[48px] text-left">
             {largeImageTitle}
           </h2>
         </div>
@@ -66,7 +66,7 @@ const Home = () => {
               src={activity.asset.url}
               alt={activity.title}
             />
-            <h3 className="absolute bottom-0 left-0 right-0 text-xl font-bold p-2 bg-yellow-300 rounded-tr-full">
+            <h3 className="absolute bottom-0 left-0 right-0 text-xl font-bold p-2 bg-yellow-400 rounded-tr-full">
               {activity.className}
             </h3>
           </Link>
