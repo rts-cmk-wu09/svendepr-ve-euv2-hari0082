@@ -1,5 +1,6 @@
 // AuthContext.jsx
 import React, { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -7,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const navigate = useNavigate();
 
   const login = async (username, password) => {
     try {
@@ -32,6 +34,8 @@ export const AuthProvider = ({ children }) => {
         console.error("Login failed:", tokenResponse.statusText);
         throw new Error("Login failed. Please check your credentials.");
       }
+
+      navigate("/schedule");
     } catch (error) {
       console.error("Login failed:", error);
       throw new Error("Something went wrong. Please check your credentials.");
