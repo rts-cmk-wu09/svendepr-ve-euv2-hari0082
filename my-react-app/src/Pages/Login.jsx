@@ -1,60 +1,35 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { HiArrowNarrowLeft } from "react-icons/hi";
+import { useAuth } from "../Context/AuthContext";
 
 const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
+  const { login } = useAuth();
+
   const handleLogin = async () => {
     try {
       setError(""); // Reset any previous errors
 
-      // Get token
-      const tokenResponse = await fetch("http://localhost:4000/auth/token", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          password,
-        }),
-      });
-      const tokenData = await tokenResponse.json();
-      const authToken = tokenData.token;
+      // Perform login logic
+      const { token, userId } = await login(username, password);
 
-      // Use token to fetch user data
-      const userResponse = await fetch("http://localhost:4000/api/v1/users", {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      const userData = await userResponse.json();
-
-      // Handle user data as needed
-      console.log("User Data:", userData);
-
-      // Log success in the console
-      console.log("Login successful!");
-
-      // Redirect to the schedule page upon successful login
-      // You can use the Link component to navigate without useHistory
-      // This assumes that you have a Route defined for "/schedule"
-      window.location.href = "/schedule";
+      // Log token and userId to the console
+      console.log("Token received in Login component:", token);
+      console.log("UserId received in Login component:", userId);
     } catch (error) {
-      console.error("Login failed:", error);
-      setError("Something went wrong. Please check your credentials."); // Set error message
+      setError("Something went worng.. Try again");
     }
   };
-
   return (
     <div className="flex flex-col items-left relative">
       <Link to="/home" className="absolute top-8 left-8">
         <HiArrowNarrowLeft className="text-2xl cursor-pointer" />
       </Link>
-      <h1 className="text-[56px] text-left font-bold mt-20 px-8 text-yellow-300">
+      <h1 className="text-[56px] text-left font-bold mt-20 px-8 text-yellow-400">
         Believe Yourself
       </h1>
       <p className="text-xl font-bold px-8">- Train like a pro</p>
@@ -87,16 +62,12 @@ const Login = () => {
         <button
           type="button"
           onClick={handleLogin}
-          className="bg-yellow-300 p-4 rounded-full mt-4 w-full font-bold"
+          className="bg-yellow-400 p-4 rounded-full mt-4 w-full font-bold"
         >
           LOG IN
         </button>
 
-        {error && (
-          <p className="text-red-500 mt-2 text-center">
-            Something went wrong. Please check your credentials.
-          </p>
-        )}
+        {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
       </div>
     </div>
   );
