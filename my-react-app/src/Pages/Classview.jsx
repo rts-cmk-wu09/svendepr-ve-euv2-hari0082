@@ -1,10 +1,10 @@
-// ClassView.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { FaArrowLeft } from "react-icons/fa6";
 import Loading from "../Components/Loading";
 import Navigation from "../Components/Navigation";
+import { useAuth } from "../Context/AuthContext";
 
 const ClassView = () => {
   const { id } = useParams();
@@ -12,6 +12,7 @@ const ClassView = () => {
   const [loading, setLoading] = useState(true);
   const [userIsRegistered, setUserIsRegistered] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+  const { token, userId } = useAuth();
 
   const userIsLoggedIn = true; // Du kan opdatere dette i henhold til din autentificering
 
@@ -21,6 +22,14 @@ const ClassView = () => {
       .then((data) => {
         setActivity(data);
         setLoading(false);
+
+        // Log brugerId'erne for dem, der er tilmeldt klassen
+        if (data.users && data.users.length > 0) {
+          const registeredUserIds = data.users.map((user) => user.id);
+          console.log("Registered User Ids:", registeredUserIds);
+        } else {
+          console.log("No users registered for this class.");
+        }
       })
       .catch((error) => {
         console.error("Error fetching class details:", error);
@@ -34,7 +43,6 @@ const ClassView = () => {
   const handleSignUp = async () => {
     try {
       // Hent token og userId fra din autentificeringskontekst eller hvor du opbevarer dem
-      const { token, userId } = getAuthToken(); // Funktionen, der henter token og userId
 
       // Sæt API-stien baseret på brugerens ID og klassens ID
       const apiUrl = `http://localhost:4000/api/v1/users/${userId}/classes/${id}`;
@@ -119,12 +127,14 @@ const ClassView = () => {
       </div>
 
       {userIsLoggedIn && (
-        <button
-          className="p-4 bg-yellow-300 w-full rounded-full mt-4"
-          onClick={handleSignUp}
-        >
-          {userIsRegistered ? "Leave" : "Sign Up"}
-        </button>
+        <div>
+          <button
+            className="p-4 bg-yellow-300 w-full rounded-full mt-4"
+            onClick={handleSignUp}
+          >
+            {userIsRegistered ? "Leave" : "Sign Up"}
+          </button>
+        </div>
       )}
 
       {isNavigationOpen && <Navigation onClose={handleToggleNavigation} />}

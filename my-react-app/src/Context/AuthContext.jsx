@@ -1,3 +1,4 @@
+// AuthContext.jsx
 import React, { createContext, useContext, useState } from "react";
 
 const AuthContext = createContext();
@@ -25,8 +26,8 @@ export const AuthProvider = ({ children }) => {
         setToken(tokenData.token);
         setUserId(tokenData.userId);
         setIsLoggedIn(true);
-        console.log("Token parsed in AuthContext:", tokenData.token); // <-- Add this line
-        console.log("UserId parsed in AuthContext:", tokenData.userId); // <-- Add this line
+        console.log("Token parsed in AuthContext:", tokenData.token);
+        console.log("UserId parsed in AuthContext:", tokenData.userId);
       } else {
         console.error("Login failed:", tokenResponse.statusText);
         throw new Error("Login failed. Please check your credentials.");
@@ -43,8 +44,14 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(false);
   };
 
+  const getAuthToken = () => {
+    return { token, userId };
+  };
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn, token, userId, login, logout }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, token, userId, login, logout, getAuthToken }}
+    >
       {children}
     </AuthContext.Provider>
   );
