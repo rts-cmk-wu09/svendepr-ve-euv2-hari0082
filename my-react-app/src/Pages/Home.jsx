@@ -29,7 +29,7 @@ const Home = () => {
 
   return (
     <div className="flex flex-col p-4">
-      <div className="flex justify-between items-center gap-24 p-2 mb-8">
+      <div className="flex justify-between items-center gap-24 p-2 my-6">
         <h1 className="text-2xl">Popular Classes</h1>
         <BurgerMenu />
       </div>
@@ -59,7 +59,7 @@ const Home = () => {
         </div>
       )}
 
-      <h2 className="text-xl font-bold m-4">Classes for you</h2>
+      <h2 className="text-xl font-bold m-2">Classes for you</h2>
       <div className="flex overflow-x-auto mt-2 no-scrollbar">
         {activities.map((activity) => (
           <Link
