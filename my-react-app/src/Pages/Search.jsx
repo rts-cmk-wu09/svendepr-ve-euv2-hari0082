@@ -11,6 +11,7 @@ const Search = () => {
   const [popularClasses, setPopularClasses] = useState([]);
   const [popularTrainers, setPopularTrainers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const handleToggleNavigation = () => {
     setIsNavigationOpen((prev) => !prev);
@@ -27,12 +28,32 @@ const Search = () => {
 
     fetch("http://localhost:4000/api/v1/trainers")
       .then((response) => response.json())
-      .then((data) => setPopularTrainers(data.slice(0, 3)))
+      .then((data) => setPopularTrainers(data.slice(0, 4)))
       .catch((error) =>
         console.error("Error fetching popular trainers:", error)
       )
       .finally(() => setIsLoading(false));
   }, []);
+
+  const filteredClasses = popularClasses.filter(
+    (classItem) =>
+      (classItem.className &&
+        classItem.className.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (classItem.classDay &&
+        classItem.classDay.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (classItem.classDescription &&
+        classItem.classDescription
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase())) ||
+      (classItem.trainer.trainerName &&
+        classItem.trainer.trainerName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase()))
+  );
+
+  const filteredTrainers = popularTrainers.filter((trainer) =>
+    trainer.trainerName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="m-4">
@@ -49,12 +70,14 @@ const Search = () => {
           type="text"
           className="border border-gray-300 h-[50px] p-6 mt-6 rounded-full w-full"
           placeholder="Search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
         />
       </div>
       {isLoading && <Loading />}
-      <h2 className="text-xl font-bold mt-8">Popular Classes</h2>
+      <h2 className="text-xl font-bold mt-6">Popular Classes</h2>
       <div className="flex overflow-x-auto mt-2 no-scrollbar">
-        {popularClasses.map((classItem) => (
+        {filteredClasses.map((classItem) => (
           <Link
             key={classItem.id}
             to={`/class/${classItem.id}`}
@@ -71,9 +94,9 @@ const Search = () => {
           </Link>
         ))}
       </div>
-      <h2 className="text-xl font-bold mt-12">Popular Trainers</h2>
+      <h2 className="text-xl font-bold mt-6">Popular Trainers</h2>
       <div className="flex flex-col mt-2">
-        {popularTrainers.map((trainer) => (
+        {filteredTrainers.map((trainer) => (
           <div key={trainer.id} className="m-2 flex items-center">
             <img
               src={trainer.asset.url}
