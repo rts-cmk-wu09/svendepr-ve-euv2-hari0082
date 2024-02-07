@@ -95,7 +95,9 @@ const Schedule = () => {
               </Link>
             ))
           ) : (
-            <p>You are not enrolled in any classes.</p>
+            <p className="text-center mt-4">
+              You are not enrolled in any classes.
+            </p>
           )}
         </div>
       ) : (
