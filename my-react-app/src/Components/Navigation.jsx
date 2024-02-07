@@ -1,8 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { HiX } from "react-icons/hi";
+import { useAuth } from "../Context/AuthContext";
 
-const Navigation = ({ onClose, isLoggedIn, onLogout }) => {
+const Navigation = ({ onClose }) => {
+  const { isLoggedIn, onLogout } = useAuth();
   const handleLinkClick = () => {
     onClose();
   };
