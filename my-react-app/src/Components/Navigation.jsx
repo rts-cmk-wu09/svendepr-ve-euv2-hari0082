@@ -1,12 +1,19 @@
+// Navigation.jsx
 import React from "react";
 import { Link } from "react-router-dom";
 import { HiX } from "react-icons/hi";
 import { useAuth } from "../Context/AuthContext";
 
 const Navigation = ({ onClose }) => {
-  const { isLoggedIn, onLogout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
+
   const handleLinkClick = () => {
     onClose();
+  };
+
+  const handleLogout = () => {
+    logout();
+    onClose(); // Luk navigationen efter logud
   };
 
   return (
@@ -33,7 +40,9 @@ const Navigation = ({ onClose }) => {
         </li>
         <li className="mb-6">
           {isLoggedIn ? (
-            <button onClick={onLogout}>Log out</button>
+            <Link to="/home" onClick={handleLogout}>
+              Log out
+            </Link>
           ) : (
             <Link to="/login" onClick={handleLinkClick}>
               Log in
