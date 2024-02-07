@@ -106,10 +106,10 @@ const ClassView = () => {
         src={activity.asset.url}
         alt={activity.className}
       />
-      <h2 className="absolute top-64 left-4 text-4xl text-yellow-400 font-bold">
+      <h2 className="absolute top-[18rem] left-4 text-4xl text-yellow-400 font-bold">
         {activity.className}
       </h2>
-      <button className="absolute top-80 right-12 border-2 border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400 font-semibold">
+      <button className="absolute top-[22rem] right-12 border-2 border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400 font-semibold">
         RATE
       </button>
       <div className="p-4">
@@ -129,7 +129,7 @@ const ClassView = () => {
       {userIsLoggedIn && (
         <div>
           <button
-            className="p-4 bg-yellow-300 w-full rounded-full mt-4"
+            className="p-4 bg-yellow-400 w-full rounded-full mt-4"
             onClick={handleSignUp}
           >
             {userIsRegistered ? "Leave" : "Sign Up"}

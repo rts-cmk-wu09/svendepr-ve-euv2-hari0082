@@ -79,15 +79,20 @@ const Schedule = () => {
         <div>
           {userClasses.length > 0 ? (
             userClasses.map((classItem) => (
-              <div
+              <Link
                 key={classItem.id}
-                className="bg-[#FCFBFB] min-w-full h-[100px] p-4 mt-4 rounded border border-[#d4d4d4] flex flex-col gap-3"
+                to={`/class/${classItem.id}`}
+                className="block"
               >
-                <h3 className="text-xl font-semibold">{classItem.className}</h3>
-                <p>
-                  {classItem.classDay} - {classItem.classTime}
-                </p>
-              </div>
+                <div className="bg-[#FCFBFB] min-w-full h-[100px] p-4 mt-4 rounded border border-[#d4d4d4] flex flex-col gap-3">
+                  <h3 className="text-xl font-semibold">
+                    {classItem.className}
+                  </h3>
+                  <p>
+                    {classItem.classDay} - {classItem.classTime}
+                  </p>
+                </div>
+              </Link>
             ))
           ) : (
             <p>You are not enrolled in any classes.</p>
@@ -97,7 +102,7 @@ const Schedule = () => {
         <div className="text-center mt-12">
           <p>You need to log in to see your schedule.</p>
           <Link to="/login">
-            <button className="bg-yellow-300 px-4 py-2 w-full rounded-full mt-3">
+            <button className="bg-yellow-400 px-4 py-2 w-full rounded-full mt-3">
               Log in
             </button>
           </Link>

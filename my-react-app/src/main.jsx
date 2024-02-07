@@ -13,9 +13,9 @@ import Welcome from "./Pages/Welcome.jsx";
 import ErrorPage from "./Pages/ErrorPage.jsx";
 import Home from "./Pages/Home.jsx";
 import Classview from "./pages/Classview.jsx";
-/* import Search from "./pages/Search.jsx";
-import Schedule from "./pages/Schedule.jsx";
-import Login from "./pages/Login.jsx"; */
+import Search from "./Pages/Search.jsx";
+import Schedule from "./Pages/Schedule.jsx";
+import Login from "./Pages/Login.jsx";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -23,9 +23,9 @@ const router = createBrowserRouter(
       <Route index element={<Welcome />} />
       <Route path="/home" element={<Home />} />
       <Route path="/class/:id" element={<Classview />} />
-      {/* <Route path="/search" element={<Search />} />
-      <Route path="/schdule" element={<Schedule />} />
-      <Route path="/login" element={<Login />} /> */}
+      <Route path="/search" element={<Search />} />
+      <Route path="/schedule" element={<Schedule />} />
+      <Route path="/login" element={<Login />} />
     </Route>
   )
 );

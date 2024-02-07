@@ -47,13 +47,13 @@ const Search = () => {
       <div>
         <input
           type="text"
-          className="border border-gray-300 h-[50px] p-3 mt-3 rounded-full w-full"
+          className="border border-gray-300 h-[50px] p-6 mt-6 rounded-full w-full"
           placeholder="Search"
         />
       </div>
       {isLoading && <Loading />}
-      <h2 className="text-xl font-bold mt-12">Popular Classes</h2>
-      <div className="flex overflow-x-auto mt-2">
+      <h2 className="text-xl font-bold mt-8">Popular Classes</h2>
+      <div className="flex overflow-x-auto mt-2 no-scrollbar">
         {popularClasses.map((classItem) => (
           <Link
             key={classItem.id}
@@ -65,7 +65,7 @@ const Search = () => {
               alt={classItem.className}
               className="min-w-[129px] min-h-[144px] rounded-xl object-cover"
             />
-            <p className="absolute bottom-2 left-2 text-white font-bold text-xs">
+            <p className="absolute bottom-0 left-0 font-bold text-xs bg-yellow-400 w-[129px] h-[48px] p-2 rounded-tr-[30px] rounded-bl-[10px]">
               {classItem.className}
             </p>
           </Link>

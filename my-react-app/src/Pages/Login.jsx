@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { HiArrowNarrowLeft } from "react-icons/hi";
 import { useAuth } from "../Context/AuthContext";
 
@@ -9,7 +9,6 @@ const Login = () => {
   const [error, setError] = useState("");
   const { login } = useAuth();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
@@ -27,8 +26,6 @@ const Login = () => {
       console.log("UserId received in Login component:", userId);
 
       setIsLoggedIn(true);
-
-      navigate("/schedule"); // Bruger useNavigate til at navigere til "/schedule" /* Men det virker ikke lige nu? */
     } catch (error) {
       setError("Invalid username or password.");
     }
