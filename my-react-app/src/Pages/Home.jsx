@@ -6,8 +6,7 @@ import BurgerMenu from "../Components/BurgerMenu";
 
 const Home = () => {
   const [activities, setActivities] = useState([]);
-  const [largeImageUrl, setLargeImageUrl] = useState("");
-  const [largeImageTitle, setLargeImageTitle] = useState("");
+  const [randomActivity, setRandomActivity] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -16,8 +15,7 @@ const Home = () => {
       .then((data) => {
         if (data.length > 0) {
           const randomIndex = Math.floor(Math.random() * data.length);
-          setLargeImageUrl(data[randomIndex].asset.url);
-          setLargeImageTitle(data[randomIndex].className);
+          setRandomActivity(data[randomIndex]);
         }
 
         setActivities(data);
@@ -40,15 +38,15 @@ const Home = () => {
         <Loading />
       ) : (
         <div className="relative mb-8 flex justify-center">
-          <Link to={`/class/${activities.length > 0 ? activities[0].id : ""}`}>
+          <Link to={`/class/${randomActivity ? randomActivity.id : ""}`}>
             <img
               className="w-[335px] h-[404px] object-cover rounded-2xl"
-              src={largeImageUrl}
+              src={randomActivity ? randomActivity.asset.url : ""}
               alt="Large"
             />
           </Link>
           <h2 className="absolute bottom-0 left-3 right-0 text-base font-bold p-3 bg-yellow-400 w-[225px] h-[85px] rounded-bl-2xl rounded-tr-[48px] text-start flex-wrap">
-            {largeImageTitle}
+            {randomActivity ? randomActivity.className : ""}
             <div className="mt-1 flex gap-2">
               {/* Hardcodet for design*/}
               <FaStar />
