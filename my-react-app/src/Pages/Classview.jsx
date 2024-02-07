@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { FaArrowLeft } from "react-icons/fa6";
+import { FaStar } from "react-icons/fa";
 import Loading from "../Components/Loading";
 import Navigation from "../Components/Navigation";
 import { useAuth } from "../Context/AuthContext";
@@ -106,9 +107,17 @@ const ClassView = () => {
         src={activity.asset.url}
         alt={activity.className}
       />
-      <h2 className="absolute top-[18rem] left-4 text-4xl text-yellow-400 font-bold">
+      <h2 className="absolute top-[17rem] left-4 text-4xl text-yellow-400 font-bold">
         {activity.className}
       </h2>
+      <div className="mt-1 flex gap-2 items-center text-yellow-400 absolute top-[22.5rem] left-5">
+        {/* Hardcodet for design*/}
+        <FaStar />
+        <FaStar />
+        <FaStar />
+        <FaStar />
+        <FaStar /> 5/5
+      </div>
       <button className="absolute top-[22rem] right-12 border-2 border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400 font-semibold">
         RATE
       </button>
