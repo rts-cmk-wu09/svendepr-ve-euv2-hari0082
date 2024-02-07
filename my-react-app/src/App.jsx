@@ -1,10 +1,14 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import "./App.css";
-/* import { AuthProvider } from "./context/AuthContext";
- */
+import { AuthProvider } from "./Context/AuthContext";
+
 function App() {
-  return <Outlet />;
+  return (
+    <AuthProvider>
+      <Outlet />
+    </AuthProvider>
+  );
 }
 
 export default App;

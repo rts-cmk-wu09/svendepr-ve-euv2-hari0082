@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { HiMenuAlt3 } from "react-icons/hi";
+import { FaStar } from "react-icons/fa";
 import Loading from "../Components/Loading";
 import BurgerMenu from "../Components/BurgerMenu";
 
@@ -30,45 +30,53 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center">
-      <span className="flex gap-12">
-        <h1 className="text-3xl font-bold mb-4">Popular Classes</h1>
+    <div className="flex flex-col p-4">
+      <div className="flex justify-between items-center gap-24 p-2 mb-8">
+        <h1 className="text-2xl">Popular Classes</h1>
         <BurgerMenu />
-      </span>
+      </div>
 
       {loading ? (
         <Loading />
       ) : (
-        <div className="relative mb-8">
+        <div className="relative mb-8 flex justify-center">
           <Link to={`/class/${activities.length > 0 ? activities[0].id : ""}`}>
             <img
-              className="w-full max-w-full"
+              className="w-[335px] h-[404px] object-cover rounded-2xl"
               src={largeImageUrl}
               alt="Large"
             />
           </Link>
-          <h2 className="absolute bottom-0 left-0 right-0 text-xl font-bold p-6 bg-yellow-300 w-[80%] rounded-tr-full">
+          <h2 className="absolute bottom-0 left-3 right-0 text-base font-bold p-3 bg-yellow-400 w-[225px] h-[85px] rounded-bl-2xl rounded-tr-[48px] text-start flex-wrap">
             {largeImageTitle}
+            <div className="mt-1 flex gap-2">
+              {/* Hardcodet for design*/}
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+              <FaStar />
+            </div>
           </h2>
         </div>
       )}
 
-      <h2 className="text-xl font-bold mb-4">Classes for you</h2>
-      <div className="flex flex-wrap justify-center gap-4">
+      <h2 className="text-xl font-bold m-4">Classes for you</h2>
+      <div className="flex overflow-x-auto mt-2 no-scrollbar">
         {activities.map((activity) => (
           <Link
             key={activity.id}
             to={`/class/${activity.id}`}
-            className="flex-shrink-0 w-48 relative"
+            className="m-2 relative"
           >
             <img
-              className="w-full h-32 object-cover"
               src={activity.asset.url}
-              alt={activity.title}
+              alt={activity.className}
+              className="min-w-[129px] min-h-[144px] rounded-xl object-cover rounded-br-none"
             />
-            <h3 className="absolute bottom-0 left-0 right-0 text-xl font-bold p-2 bg-yellow-300 rounded-tr-full">
+            <p className="absolute bottom-0 left-0 font-bold text-xs bg-yellow-400 w-[129px] h-[48px] p-2 rounded-tr-[30px] rounded-bl-[10px]">
               {activity.className}
-            </h3>
+            </p>
           </Link>
         ))}
       </div>
