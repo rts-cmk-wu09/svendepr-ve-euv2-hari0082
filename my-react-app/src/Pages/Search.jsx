@@ -105,14 +105,18 @@ const Search = () => {
       {filteredTrainers.length > 0 && (
         <div className="flex flex-col mt-2">
           {filteredTrainers.map((trainer) => (
-            <div key={trainer.id} className="m-2 flex items-center">
+            <Link
+              key={trainer.id}
+              to={`/class/${trainer.id}`}
+              className="m-2 flex items-center"
+            >
               <img
                 src={trainer.asset.url}
                 alt={trainer.trainerName}
                 className="w-[88px] h-[88px] rounded-xl object-cover"
               />
               <p className="ml-2">{trainer.trainerName}</p>
-            </div>
+            </Link>
           ))}
         </div>
       )}

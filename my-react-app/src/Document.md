@@ -1,6 +1,6 @@
-## Dokumentationsrapport
+### Dokumentationsrapport
 
-## Tech stack
+## Min tech stack
 
 # React og React DOM
 
@@ -32,11 +32,9 @@ Det tilbyder en skalerbar og vedligeholdelsesvenlig tilgang til styling, der for
 
 ## Dybdegående Kodeanalyse
 
----
+# Hvorfor denne kode?
 
-## Hvorfor denne kode?
-
-Tekst her:
+Jeg vælger denne kode fordi, brugeren kan søge på hold, træner, ugedage og beskrivelse i input feltet og det er meget brugervenligt. Det giver en god oplevelse og formindsker tid på siden for brugen. Det spændende at der kan fetche data fra mere end et endpoint - Data fra endpointsene filteres med funktioner filterClasses og filterTrainers alt efter brugers indput.
 
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -46,19 +44,16 @@ import Navigation from "../Components/Navigation";
 import Loading from "../Components/Loading";
 
 const Search = () => {
-// State Hooks
 const [isNavigationOpen, setIsNavigationOpen] = useState(false);
 const [popularClasses, setPopularClasses] = useState([]);
 const [popularTrainers, setPopularTrainers] = useState([]);
 const [isLoading, setIsLoading] = useState(false);
 const [searchTerm, setSearchTerm] = useState("");
 
-// Toggle Navigation
 const handleToggleNavigation = () => {
 setIsNavigationOpen((prev) => !prev);
 };
 
-// Fetch Popular Classes and Trainers on Component Mount
 useEffect(() => {
 setIsLoading(true);
 
@@ -78,7 +73,6 @@ setIsLoading(true);
 
 }, []);
 
-// Filter Classes based on Search Term
 const filteredClasses = popularClasses.filter(
 (classItem) =>
 (classItem.className &&
@@ -95,7 +89,6 @@ classItem.trainer.trainerName
 .includes(searchTerm.toLowerCase()))
 );
 
-// Filter Trainers based on Search Term
 const filteredTrainers = popularTrainers.filter((trainer) =>
 trainer.trainerName.toLowerCase().includes(searchTerm.toLowerCase())
 );
@@ -105,7 +98,7 @@ return (
 <div className="m-4">
 <div className="flex items-center justify-between p-2">
 <Link to="/home">
-<HiArrowNarrowLeft className="text-2xl cursor-pointer" />
+<HiArrowNarrowLeft className="text-2xl cursor-pointer text-gray-500" />
 </Link>
 <h1 className="text-2xl">Search</h1>
 {isNavigationOpen && <Navigation onClose={handleToggleNavigation} />}
@@ -121,7 +114,14 @@ onChange={(e) => setSearchTerm(e.target.value)}
 />
 </div>
 {isLoading && <Loading />}
+{filteredClasses.length === 0 && filteredTrainers.length === 0 && (
+<p className="text-yellow-400 mt-4 text-center">
+Your search did not give any results. Try to search for something
+else.
+</p>
+)}
 <h2 className="text-xl font-bold mt-6">Popular Classes</h2>
+{filteredClasses.length > 0 && (
 <div className="flex overflow-x-auto mt-2 no-scrollbar">
 {filteredClasses.map((classItem) => (
 <Link
@@ -129,29 +129,35 @@ key={classItem.id}
 to={`/class/${classItem.id}`}
 className="m-2 relative" >
 <img
-              src={classItem.asset.url}
-              alt={classItem.className}
-              className="min-w-[129px] min-h-[144px] rounded-xl object-cover"
-            />
+                src={classItem.asset.url}
+                alt={classItem.className}
+                className="min-w-[129px] min-h-[144px] rounded-xl object-cover"
+              />
 <p className="absolute bottom-0 left-0 font-bold text-xs bg-yellow-400 w-[129px] h-[48px] p-2 rounded-tr-[30px] rounded-bl-[10px]">
 {classItem.className}
 </p>
 </Link>
 ))}
 </div>
+)}
 <h2 className="text-xl font-bold mt-6">Popular Trainers</h2>
+{filteredTrainers.length > 0 && (
 <div className="flex flex-col mt-2">
 {filteredTrainers.map((trainer) => (
-<div key={trainer.id} className="m-2 flex items-center">
+<Link
+key={trainer.id}
+to={`/class/${trainer.id}`}
+className="m-2 flex items-center" >
 <img
-              src={trainer.asset.url}
-              alt={trainer.trainerName}
-              className="w-[88px] h-[88px] rounded-xl object-cover"
-            />
+                src={trainer.asset.url}
+                alt={trainer.trainerName}
+                className="w-[88px] h-[88px] rounded-xl object-cover"
+              />
 <p className="ml-2">{trainer.trainerName}</p>
-</div>
+</Link>
 ))}
 </div>
+)}
 </div>
 );
 };
@@ -200,4 +206,4 @@ Bruger Tailwind CSS-klasser til responsivt design og styling.
 
 # Valgfri opgave begrundelse:
 
-Tekst her:
+Jeg har valgt at gå med Automatiseret Deployment.
