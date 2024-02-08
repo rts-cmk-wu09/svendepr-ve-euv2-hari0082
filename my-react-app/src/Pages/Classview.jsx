@@ -14,8 +14,9 @@ const ClassView = () => {
   const [userIsRegistered, setUserIsRegistered] = useState(false);
   const [isNavigationOpen, setIsNavigationOpen] = useState(false);
   const { token, userId } = useAuth();
+  const [trainer, setTrainer] = useState(null);
 
-  const userIsLoggedIn = true; // Du kan opdatere dette i henhold til din autentificering
+  const userIsLoggedIn = true;
 
   useEffect(() => {
     fetch(`http://localhost:4000/api/v1/classes/${id}`)
@@ -24,12 +25,23 @@ const ClassView = () => {
         setActivity(data);
         setLoading(false);
 
-        // Log brugerId'erne for dem, der er tilmeldt klassen
         if (data.users && data.users.length > 0) {
           const registeredUserIds = data.users.map((user) => user.id);
           console.log("Registered User Ids:", registeredUserIds);
         } else {
           console.log("No users registered for this class.");
+        }
+
+        // Henter trænerens data baseret på trænerId fra aktiviteten
+        if (data.trainerId) {
+          fetch(`http://localhost:4000/api/v1/trainers/${data.trainerId}`)
+            .then((trainerResponse) => trainerResponse.json())
+            .then((trainerData) => {
+              setTrainer(trainerData);
+            })
+            .catch((trainerError) => {
+              console.error("Error fetching trainer details:", trainerError);
+            });
         }
       })
       .catch((error) => {
@@ -37,25 +49,22 @@ const ClassView = () => {
         setLoading(false);
       });
 
-    // Simulerer, at brugeren allerede er tilmeldt klassen (du skal opdatere dette i henhold til din logik)
     setUserIsRegistered(false);
   }, [id]);
 
   const handleSignUp = async () => {
     try {
-      // Hent token og userId fra din autentificeringskontekst eller hvor du opbevarer dem
-
+      // Henter token og userId fra api
       // Sæt API-stien baseret på brugerens ID og klassens ID
       const apiUrl = `http://localhost:4000/api/v1/users/${userId}/classes/${id}`;
 
-      let method = "POST"; // Standard er tilmelding
+      let method = "POST"; // tilmelding
 
       // Hvis brugeren allerede er tilmeldt, skal vi bruge DELETE-metoden for at afmelde
       if (userIsRegistered) {
         method = "DELETE";
       }
 
-      // Udfør API-anmodningen
       const response = await fetch(apiUrl, {
         method: method,
         headers: {
@@ -68,7 +77,6 @@ const ClassView = () => {
         return;
       }
 
-      // Opdater brugerens tilmeldingsstatus
       setUserIsRegistered((prev) => !prev);
 
       console.log(`${method} request successful!`);
@@ -86,7 +94,7 @@ const ClassView = () => {
   }
 
   if (!activity) {
-    return <div>No data available for this class at the moment. Sorry</div>;
+    return <div>Sorry... No data available for this class at the moment.</div>;
   }
 
   return (
@@ -118,27 +126,35 @@ const ClassView = () => {
         <FaStar />
         <FaStar /> 5/5
       </div>
-      <button className="absolute top-[22rem] right-12 border-2 border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400 font-semibold">
+      <button className="absolute top-[22rem] right-8 border-2 border-yellow-400 w-[109px] h-[50px] rounded-full text-yellow-400">
         RATE
       </button>
       <div className="p-4">
-        <p className="font-semibold mb-4">
+        <p className="mb-4">
           {activity.classDay} - {activity.classTime}
         </p>
         <p>{activity.classDescription}</p>
-        <p className="font-semibold text-xl mt-4">Trainer</p>
-        <div className="border p-4 mt-2 w-[88px] h-[88px]">
-          {/* mangler billede af træner, men han er ikke med i objektet. */}
-        </div>
-        <p className="text-base font-semibold mt-2">
-          {activity.trainer.trainerName}
-        </p>
+        <p className="font-semibold text-xl mt-6">Trainer</p>
+        {trainer ? (
+          <div className="flex items-center gap-4 mt-4">
+            <img
+              className="mt-2 w-[88px] h-[88px] rounded-2xl object-cover"
+              src={trainer.asset.url}
+              alt={trainer.trainerName}
+            />
+            <p className="text-base font-semibold mt-2">
+              {trainer.trainerName}
+            </p>
+          </div>
+        ) : (
+          <p>No trainer info</p>
+        )}
       </div>
 
       {userIsLoggedIn && (
-        <div>
+        <div className="flex justify-center items-baseline">
           <button
-            className="p-4 bg-yellow-400 w-full rounded-full mt-4"
+            className=" bg-yellow-400 w-[334px] h-[50px] rounded-full absolute mt-12"
             onClick={handleSignUp}
           >
             {userIsRegistered ? "Leave" : "Sign Up"}
