@@ -206,4 +206,4 @@ Bruger Tailwind CSS-klasser til responsivt design og styling.
 
 # Valgfri opgave begrundelse:
 
-Jeg har valgt at gå med Automatiseret Deployment.
+Jeg har valgt at gå med Automatiseret Deployment, og har ikke kunne lykkes med at deploy grundet min mappestruktur eller andet. Hverken netlify eller vercel kan depoy min side og giver mig en error. MEN jeg har den deployet manuelllalaa
