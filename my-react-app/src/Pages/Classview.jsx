@@ -58,9 +58,9 @@ const ClassView = () => {
       // Sæt API-stien baseret på brugerens ID og klassens ID
       const apiUrl = `http://localhost:4000/api/v1/users/${userId}/classes/${id}`;
 
-      let method = "POST"; // tilmelding
+      let method = "POST"; // Tilmelding
 
-      // Hvis brugeren allerede er tilmeldt, skal vi bruge DELETE-metoden for at afmelde
+      // Hvis brugeren allerede er tilmeldt, skal man bruge DELETE-metoden for at afmelde
       if (userIsRegistered) {
         method = "DELETE";
       }
