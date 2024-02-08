@@ -1,134 +1,221 @@
-# Dokumentationsrapport
+## Dokumentationsrapport
 
-## Tech stack
+# Tech stack
 
-### React og React DOM
+# React og React DOM
 
-**Hvorfor React?**
+Hvorfor React?
 
-- React giver en effektiv måde at opbygge brugeroverflader på.
-- Dets komponentbaserede arkitektur forbedrer genanvendelighed og vedligeholdelse af kode.
+React giver en effektiv måde at opbygge brugeroverflader på.
+Dets komponentbaserede arkitektur forbedrer genanvendelighed og vedligeholdelse af kode.
 
-### React Icons
+# React Icons
 
-**Hvorfor React Icons?**
+Hvorfor React Icons?
 
-- React Icons tilbyder et stort udvalg af ikoner som React-komponenter, hvilket forenkler ikonintegrationen.
-- Det forbedrer visuel appel med let tilpasselige ikoner.
+React Icons tilbyder et stort udvalg af ikoner som React-komponenter, hvilket forenkler ikonintegrationen.
+Det forbedrer visuel appel med let tilpasselige ikoner.
 
-### React Router DOM
+# React Router DOM
 
-**Hvorfor React Router DOM?**
+Hvorfor React Router DOM?
 
-- React Router DOM muliggør problemfri klient-side navigation og forbedrer brugerinteraktionen.
-- Deklarativ routing forenkler håndteringen af forskellige visninger i applikationen.
+React Router DOM muliggør problemfri klient-side navigation og forbedrer brugerinteraktionen.
+Deklarativ routing forenkler håndteringen af forskellige visninger i applikationen.
 
-### React Scripts
+# React Scripts
 
-**Hvorfor React Scripts?**
+Hvorfor React Scripts?
 
-- React Scripts tilbyder essentielle scripts til at bygge og køre React-applikationer.
-- Det giver et bekvemt udviklingsmiljø og optimerede produktionsbygger.
+React Scripts tilbyder essentielle scripts til at bygge og køre React-applikationer.
+Det giver et bekvemt udviklingsmiljø og optimerede produktionsbygger.
 
-### Vite
+# Vite
 
-**Hvorfor Vite?**
+Hvorfor Vite?
 
-- Vite er en hurtig udviklingsserver og en bundler, der giver hurtig opstart og hot module replacement.
-- Dets hastighed forbedrer udviklingsworkflowet med næsten øjeblikkelig feedback.
+Vite er en hurtig udviklingsserver og en bundler, der giver hurtig opstart og hot module replacement.
+Dets hastighed forbedrer udviklingsworkflowet med næsten øjeblikkelig feedback.
 
-### Vite React Plugin
+# Vite React Plugin
 
-**Hvorfor Vite React Plugin?**
+Hvorfor Vite React Plugin?
 
-- Vite React Plugin optimerer React-applikationer i Vite-økosystemet.
-- Det forbedrer byggeydelsen og giver en mere problemfri udviklingsoplevelse.
+Vite React Plugin optimerer React-applikationer i Vite-økosystemet.
+Det forbedrer byggeydelsen og giver en mere problemfri udviklingsoplevelse.
 
-### Tailwind CSS
+# Tailwind CSS
 
-**Hvorfor Tailwind CSS?**
+Hvorfor Tailwind CSS?
 
-- Tailwind CSS er et utility-first CSS-framework, der fremmer hurtig udvikling med foruddefinerede utility-klasser.
-- Det tilbyder en skalerbar og vedligeholdelsesvenlig tilgang til styling, der forbedrer udviklerens effektivitet.
+Tailwind CSS er et utility-first CSS-framework, der fremmer hurtig udvikling med foruddefinerede utility-klasser.
+Det tilbyder en skalerbar og vedligeholdelsesvenlig tilgang til styling, der forbedrer udviklerens effektivitet.
 
-## Ekstra:
+# Ekstra:
 
-**Bemærkning om github:**
+Bemærkning om github:
 
 GitHub betragtes ikke som en del af teknologistakken, da det er en ekstern platform, der bruges til versionsstyring og samarbejde.
 
----
-
 ## Dybdegående Kodeanalyse
 
-import React from "react";
-import { Link } from "react-router-dom";
-import { HiX } from "react-icons/hi";
+---
 
-const Navigation = ({ onClose }) => {
-const handleLinkClick = () => {
-onClose();
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { HiArrowNarrowLeft, HiMenuAlt3 } from "react-icons/hi";
+import BurgerMenu from "../Components/BurgerMenu";
+import Navigation from "../Components/Navigation";
+import Loading from "../Components/Loading";
+
+const Search = () => {
+// State Hooks
+const [isNavigationOpen, setIsNavigationOpen] = useState(false);
+const [popularClasses, setPopularClasses] = useState([]);
+const [popularTrainers, setPopularTrainers] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [searchTerm, setSearchTerm] = useState("");
+
+// Toggle Navigation
+const handleToggleNavigation = () => {
+setIsNavigationOpen((prev) => !prev);
 };
+
+// Fetch Popular Classes and Trainers on Component Mount
+useEffect(() => {
+setIsLoading(true);
+
+    fetch("http://localhost:4000/api/v1/classes")
+      .then((response) => response.json())
+      .then((data) => setPopularClasses(data))
+      .catch((error) => console.error("Error fetching popular classes:", error))
+      .finally(() => setIsLoading(false));
+
+    fetch("http://localhost:4000/api/v1/trainers")
+      .then((response) => response.json())
+      .then((data) => setPopularTrainers(data.slice(0, 4)))
+      .catch((error) =>
+        console.error("Error fetching popular trainers:", error)
+      )
+      .finally(() => setIsLoading(false));
+
+}, []);
+
+// Filter Classes based on Search Term
+const filteredClasses = popularClasses.filter(
+(classItem) =>
+(classItem.className &&
+classItem.className.toLowerCase().includes(searchTerm.toLowerCase())) ||
+(classItem.classDay &&
+classItem.classDay.toLowerCase().includes(searchTerm.toLowerCase())) ||
+(classItem.classDescription &&
+classItem.classDescription
+.toLowerCase()
+.includes(searchTerm.toLowerCase())) ||
+(classItem.trainer.trainerName &&
+classItem.trainer.trainerName
+.toLowerCase()
+.includes(searchTerm.toLowerCase()))
+);
+
+// Filter Trainers based on Search Term
+const filteredTrainers = popularTrainers.filter((trainer) =>
+trainer.trainerName.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
 return (
 
-<div className="fixed top-0 left-0 w-full h-full bg-white flex flex-col items-center justify-center z-50">
-<HiX
-        className="text-2xl absolute top-4 right-4 cursor-pointer"
-        onClick={onClose}
-      />
-<ul className="list-none text-2xl font-medium">
-<li className="mb-6">
-<Link to="/home" onClick={handleLinkClick}>
-Hjem
+<div className="m-4">
+<div className="flex items-center justify-between p-2">
+<Link to="/home">
+<HiArrowNarrowLeft className="text-2xl cursor-pointer" />
 </Link>
-</li>
-<li className="mb-6">
-<Link to="/search" onClick={handleLinkClick}>
-Søg
+<h1 className="text-2xl">Search</h1>
+{isNavigationOpen && <Navigation onClose={handleToggleNavigation} />}
+<BurgerMenu />
+</div>
+<div>
+<input
+type="text"
+className="border border-gray-300 h-[50px] p-6 mt-6 rounded-full w-full"
+placeholder="Search"
+value={searchTerm}
+onChange={(e) => setSearchTerm(e.target.value)}
+/>
+</div>
+{isLoading && <Loading />}
+<h2 className="text-xl font-bold mt-6">Popular Classes</h2>
+<div className="flex overflow-x-auto mt-2 no-scrollbar">
+{filteredClasses.map((classItem) => (
+<Link
+key={classItem.id}
+to={`/class/${classItem.id}`}
+className="m-2 relative" >
+<img
+              src={classItem.asset.url}
+              alt={classItem.className}
+              className="min-w-[129px] min-h-[144px] rounded-xl object-cover"
+            />
+<p className="absolute bottom-0 left-0 font-bold text-xs bg-yellow-400 w-[129px] h-[48px] p-2 rounded-tr-[30px] rounded-bl-[10px]">
+{classItem.className}
+</p>
 </Link>
-</li>
-<li className="mb-6">
-<Link to="/schedule" onClick={handleLinkClick}>
-Min Tidsplan
-</Link>
-</li>
-<li className="mb-6">
-<button>Log ud</button>
-</li>
-</ul>
+))}
+</div>
+<h2 className="text-xl font-bold mt-6">Popular Trainers</h2>
+<div className="flex flex-col mt-2">
+{filteredTrainers.map((trainer) => (
+<div key={trainer.id} className="m-2 flex items-center">
+<img
+              src={trainer.asset.url}
+              alt={trainer.trainerName}
+              className="w-[88px] h-[88px] rounded-xl object-cover"
+            />
+<p className="ml-2">{trainer.trainerName}</p>
+</div>
+))}
+</div>
 </div>
 );
 };
 
-export default Navigation;
+export default Search;
 
-# Navigation:
+---
 
-Udnytter Link-komponenten fra react-router-dom til deklarativ navigation på klientens side.
-Navigationslinks har en onClick-begivenhedshåndterer (handleLinkClick), der udløser funktionen onClose for at lukke menuen.
+Bruger useState til at håndtere tilstanden for Navigation, Popular Classes,Popular Trainers, Loading, og Search Term.
 
-# Forbedret Brugeroplevelse:
+# Toggle Navigation:
 
-Lukning af menuen (onClose) ved klik på link giver en glattere og mere intuitiv brugeroplevelse.
-Bruger React Routers Link sikrer effektiv navigation på klientens side uden fuld sideindlæsning.
+handleToggleNavigation håndterer åbning/lukning af navigationsmenuen.
 
-# Modulær Funktionalitet:
+- Bruger useEffect til at hente populære klasser og trænere ved komponentmontering.
 
-Funktionen handleLinkClick tilføjer et abstraktionslag, hvilket gør komponenten mere modulær og lettere at vedligeholde.
-Hvert link har en konsistent struktur, hvilket bidrager til renere og mere læselig kode.
+# Filtrering af Klasser og Trænere:
 
-# Bevarelse af Stil og Struktur:
+Anvender filter-metoden til at filtrere klasser og trænere baseret på søgetermen.
 
-Bevarer stilen og strukturen fra den tidligere version og sikrer visuel konsistens.
-Bruger Tailwind CSS-klasser til styling og fastholder den utility-first-tilgang.
+# Visning af Loader:
 
-# Logout-knap:
+Viser en loader, mens data indlæses, ved at betinge rendring baseret på isLoading-tilstanden.
 
-"Log ud"-knappen er...
+# Dynamisk Visning af Popular Classes og Trainers:
 
-## Ændringer jeg har fortaget mig.
+Dynamisk mapper gennem filtrerede klasser og trænere og genererer links eller billeder med tilhørende information.
 
-- Jeg har tilføjet en log ind i menuen, som veksler mellem "Log in" og "Log out" så brugeren kan se om de er logget ind eller ej.
+# Responsivt Design:
 
-- Jeg har tilføjet en tilbage knap på login siden, hvis nu brugeren ikke ønsker at logge ind.
+Bruger Tailwind CSS-klasser til responsivt design og styling.
+
+# Forbedringer og Videreudvikling:
+
+- Overvej at tilføje yderligere fejlhåndtering og brugerfeedback ved mislykkede API kald.
+- Overvejer muligheden for at optimere billedstørrelser for at forbedre sideindlæsningstider.
+- Implementer brugervenlige fejlmeddelelser ved søgeproblemer eller ingen resultater.
+- Overvej at organisere komponentstrukturen ved at opdele den i mindre komponenter.
+
+## Ændringer jeg har fortaget mig fra design.
+
+- Jeg har tilføjet en log ind i menuen, som veksler mellem "Log in" og "Log out" så brugeren kan se om de er logget ind eller ej. Hvis brugeren er logget ind, så kan de logge ud igen.
+
+- Jeg har tilføjet en tilbage knap på login siden, hvis nu brugeren ikke ønsker at logge ind alligevel.
