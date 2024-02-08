@@ -104,8 +104,8 @@ const Schedule = () => {
         <div className="text-center mt-12">
           <p>You need to log in to see your schedule.</p>
           <Link to="/login">
-            <button className="bg-yellow-400 px-4 py-2 w-full rounded-full mt-3">
-              Log in
+            <button className="bg-yellow-400 p-4 rounded-full mt-4 w-full font-bold">
+              LOG IN
             </button>
           </Link>
         </div>
