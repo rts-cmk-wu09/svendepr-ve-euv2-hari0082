@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { HiArrowNarrowLeft } from "react-icons/hi";
-import { HiMenuAlt3 } from "react-icons/hi";
+import { HiArrowNarrowLeft, HiMenuAlt3 } from "react-icons/hi";
 import BurgerMenu from "../Components/BurgerMenu";
 import Navigation from "../Components/Navigation";
 import Loading from "../Components/Loading";
@@ -59,7 +58,7 @@ const Search = () => {
     <div className="m-4">
       <div className="flex items-center justify-between p-2">
         <Link to="/home">
-          <HiArrowNarrowLeft className="text-2xl cursor-pointer" />
+          <HiArrowNarrowLeft className="text-2xl cursor-pointer text-gray-500" />
         </Link>
         <h1 className="text-2xl">Search</h1>
         {isNavigationOpen && <Navigation onClose={handleToggleNavigation} />}
@@ -75,38 +74,48 @@ const Search = () => {
         />
       </div>
       {isLoading && <Loading />}
+      {filteredClasses.length === 0 && filteredTrainers.length === 0 && (
+        <p className="text-yellow-400 mt-4 text-center">
+          Your search did not give any results. Try to search for something
+          else.
+        </p>
+      )}
       <h2 className="text-xl font-bold mt-6">Popular Classes</h2>
-      <div className="flex overflow-x-auto mt-2 no-scrollbar">
-        {filteredClasses.map((classItem) => (
-          <Link
-            key={classItem.id}
-            to={`/class/${classItem.id}`}
-            className="m-2 relative"
-          >
-            <img
-              src={classItem.asset.url}
-              alt={classItem.className}
-              className="min-w-[129px] min-h-[144px] rounded-xl object-cover"
-            />
-            <p className="absolute bottom-0 left-0 font-bold text-xs bg-yellow-400 w-[129px] h-[48px] p-2 rounded-tr-[30px] rounded-bl-[10px]">
-              {classItem.className}
-            </p>
-          </Link>
-        ))}
-      </div>
+      {filteredClasses.length > 0 && (
+        <div className="flex overflow-x-auto mt-2 no-scrollbar">
+          {filteredClasses.map((classItem) => (
+            <Link
+              key={classItem.id}
+              to={`/class/${classItem.id}`}
+              className="m-2 relative"
+            >
+              <img
+                src={classItem.asset.url}
+                alt={classItem.className}
+                className="min-w-[129px] min-h-[144px] rounded-xl object-cover"
+              />
+              <p className="absolute bottom-0 left-0 font-bold text-xs bg-yellow-400 w-[129px] h-[48px] p-2 rounded-tr-[30px] rounded-bl-[10px]">
+                {classItem.className}
+              </p>
+            </Link>
+          ))}
+        </div>
+      )}
       <h2 className="text-xl font-bold mt-6">Popular Trainers</h2>
-      <div className="flex flex-col mt-2">
-        {filteredTrainers.map((trainer) => (
-          <div key={trainer.id} className="m-2 flex items-center">
-            <img
-              src={trainer.asset.url}
-              alt={trainer.trainerName}
-              className="w-[88px] h-[88px] rounded-xl object-cover"
-            />
-            <p className="ml-2">{trainer.trainerName}</p>
-          </div>
-        ))}
-      </div>
+      {filteredTrainers.length > 0 && (
+        <div className="flex flex-col mt-2">
+          {filteredTrainers.map((trainer) => (
+            <div key={trainer.id} className="m-2 flex items-center">
+              <img
+                src={trainer.asset.url}
+                alt={trainer.trainerName}
+                className="w-[88px] h-[88px] rounded-xl object-cover"
+              />
+              <p className="ml-2">{trainer.trainerName}</p>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

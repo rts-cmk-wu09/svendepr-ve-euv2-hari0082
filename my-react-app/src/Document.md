@@ -1,6 +1,6 @@
 ## Dokumentationsrapport
 
-# Tech stack
+## Tech stack
 
 # React og React DOM
 
@@ -16,33 +16,12 @@ Hvorfor React Icons?
 React Icons tilbyder et stort udvalg af ikoner som React-komponenter, hvilket forenkler ikonintegrationen.
 Det forbedrer visuel appel med let tilpasselige ikoner.
 
-# React Router DOM
+# React Router
 
-Hvorfor React Router DOM?
+Hvorfor React Router?
 
 React Router DOM muliggør problemfri klient-side navigation og forbedrer brugerinteraktionen.
 Deklarativ routing forenkler håndteringen af forskellige visninger i applikationen.
-
-# React Scripts
-
-Hvorfor React Scripts?
-
-React Scripts tilbyder essentielle scripts til at bygge og køre React-applikationer.
-Det giver et bekvemt udviklingsmiljø og optimerede produktionsbygger.
-
-# Vite
-
-Hvorfor Vite?
-
-Vite er en hurtig udviklingsserver og en bundler, der giver hurtig opstart og hot module replacement.
-Dets hastighed forbedrer udviklingsworkflowet med næsten øjeblikkelig feedback.
-
-# Vite React Plugin
-
-Hvorfor Vite React Plugin?
-
-Vite React Plugin optimerer React-applikationer i Vite-økosystemet.
-Det forbedrer byggeydelsen og giver en mere problemfri udviklingsoplevelse.
 
 # Tailwind CSS
 
@@ -51,15 +30,13 @@ Hvorfor Tailwind CSS?
 Tailwind CSS er et utility-first CSS-framework, der fremmer hurtig udvikling med foruddefinerede utility-klasser.
 Det tilbyder en skalerbar og vedligeholdelsesvenlig tilgang til styling, der forbedrer udviklerens effektivitet.
 
-# Ekstra:
-
-Bemærkning om github:
-
-GitHub betragtes ikke som en del af teknologistakken, da det er en ekstern platform, der bruges til versionsstyring og samarbejde.
-
 ## Dybdegående Kodeanalyse
 
 ---
+
+## Hvorfor denne kode?
+
+Tekst her:
 
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -183,6 +160,8 @@ export default Search;
 
 ---
 
+# State
+
 Bruger useState til at håndtere tilstanden for Navigation, Popular Classes,Popular Trainers, Loading, og Search Term.
 
 # Toggle Navigation:
@@ -207,11 +186,10 @@ Dynamisk mapper gennem filtrerede klasser og trænere og genererer links eller b
 
 Bruger Tailwind CSS-klasser til responsivt design og styling.
 
-# Forbedringer og Videreudvikling:
+# Forbedringer og Refleksion:
 
-- Overvej at tilføje yderligere fejlhåndtering og brugerfeedback ved mislykkede API kald.
-- Overvejer muligheden for at optimere billedstørrelser for at forbedre sideindlæsningstider.
-- Implementer brugervenlige fejlmeddelelser ved søgeproblemer eller ingen resultater.
+- Overvej at tilføje yderligere fejlhåndtering og brugerfeedback ved mislykkede API kaldet.
+- Overvejer muligheden for at optimere billedstørrelser for at forbedre sideindlæsningstid.
 - Overvej at organisere komponentstrukturen ved at opdele den i mindre komponenter.
 
 ## Ændringer jeg har fortaget mig fra design.
@@ -219,3 +197,7 @@ Bruger Tailwind CSS-klasser til responsivt design og styling.
 - Jeg har tilføjet en log ind i menuen, som veksler mellem "Log in" og "Log out" så brugeren kan se om de er logget ind eller ej. Hvis brugeren er logget ind, så kan de logge ud igen.
 
 - Jeg har tilføjet en tilbage knap på login siden, hvis nu brugeren ikke ønsker at logge ind alligevel.
+
+# Valgfri opgave begrundelse:
+
+Tekst her:

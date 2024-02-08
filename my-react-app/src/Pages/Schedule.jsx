@@ -64,7 +64,7 @@ const Schedule = () => {
     <div className="m-4">
       <div className="flex items-center justify-between p-4">
         <Link to="/home">
-          <HiArrowNarrowLeft className="text-2xl cursor-pointer" />
+          <HiArrowNarrowLeft className="text-2xl cursor-pointer text-gray-500" />
         </Link>
         <h1 className="text-2xl">My Schedule</h1>
         {isNavigationOpen && <Navigation onClose={handleToggleNavigation} />}

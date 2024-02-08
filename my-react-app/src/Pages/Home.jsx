@@ -28,8 +28,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="flex flex-col p-4">
-      <div className="flex justify-between items-center gap-24 p-2 my-6">
+    <div className="flex flex-col p-6">
+      <div className="flex justify-between p-2 my-6">
         <h1 className="text-2xl">Popular Classes</h1>
         <BurgerMenu />
       </div>
@@ -37,7 +37,7 @@ const Home = () => {
       {loading ? (
         <Loading />
       ) : (
-        <div className="relative mb-8 flex justify-center">
+        <div className="relative mb-6 flex justify-center">
           <Link to={`/class/${randomActivity ? randomActivity.id : ""}`}>
             <img
               className="w-[335px] h-[404px] object-cover rounded-2xl"
@@ -45,7 +45,7 @@ const Home = () => {
               alt="Large"
             />
           </Link>
-          <h2 className="absolute bottom-0 left-3 right-0 text-base font-bold p-3 bg-yellow-400 w-[225px] h-[85px] rounded-bl-2xl rounded-tr-[48px] text-start flex-wrap">
+          <h2 className="absolute bottom-0 left-1 right-0 text-base font-bold p-3 bg-yellow-400 w-[225px] h-[85px] rounded-bl-2xl rounded-tr-[48px] text-start flex-wrap">
             {randomActivity ? randomActivity.className : ""}
             <div className="mt-1 flex gap-2">
               {/* Hardcodet for design*/}

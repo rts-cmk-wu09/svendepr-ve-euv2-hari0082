@@ -107,7 +107,7 @@ const ClassView = () => {
         className="absolute top-8 right-8 text-white"
         onClick={handleToggleNavigation}
       >
-        <HiMenuAlt3 className="text-2xl" />
+        <HiMenuAlt3 className="text-3xl" />
       </button>
 
       <img
