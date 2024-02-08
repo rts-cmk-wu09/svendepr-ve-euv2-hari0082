@@ -13,13 +13,13 @@ const Navigation = ({ onClose }) => {
 
   const handleLogout = () => {
     logout();
-    onClose(); // Luk navigationen efter logud
+    onClose(); // Lukker navigationen efter bruger logger ud
   };
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-white flex flex-col items-center justify-center z-50 text-center">
       <HiX
-        className="text-2xl absolute top-4 right-4 cursor-pointer"
+        className="text-2xl absolute top-12 right-6 cursor-pointer"
         onClick={onClose}
       />
       <ul className="list-none text-2xl font-medium">
